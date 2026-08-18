@@ -9,20 +9,21 @@ export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // The rendered icon depends on the client-only theme, so hold off until mount.
+  // The theme is only known in the browser, so everything that depends on it —
+  // icon *and* label — has to wait for mount or the markup won't hydrate.
   useEffect(() => setMounted(true), []);
 
-  const isDark = resolvedTheme === "dark";
+  const isDark = mounted && resolvedTheme === "dark";
 
   return (
     <Button
       variant="ghost"
       size="icon"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      aria-label={mounted ? (isDark ? "Switch to light mode" : "Switch to dark mode") : "Toggle theme"}
       className="text-muted-foreground"
     >
-      {mounted && isDark ? <Sun /> : <Moon />}
+      {isDark ? <Sun /> : <Moon />}
     </Button>
   );
 }

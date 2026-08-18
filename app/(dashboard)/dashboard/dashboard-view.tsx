@@ -318,7 +318,8 @@ export function DashboardView() {
                         {order.customerName}
                       </span>
                       <span className="block truncate text-[12px] text-muted-foreground">
-                        {order.reference} · {order.itemCount} items · {formatRelative(order.createdAt)}
+                        {order.reference} · {order.itemCount} {order.itemCount === 1 ? "item" : "items"} ·{" "}
+                        {formatRelative(order.createdAt)}
                       </span>
                     </span>
                     <span className="hidden shrink-0 sm:block">
